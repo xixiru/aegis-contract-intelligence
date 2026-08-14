@@ -1,6 +1,8 @@
-# Aegis Contract Intelligence
+# Aegis Contract Intelligence Platform
 
-> Enterprise-grade AI contract risk analysis and compliance intelligence for non-standard agreements.
+> AI-powered Contract Understanding and Risk Analysis Platform for Non-standard Agreements.
+
+**面向非制式协议的 AI 合同理解与风险分析平台**
 
 [![Status](https://img.shields.io/badge/status-architecture%20preview-6f42c1)](#project-status)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)](#technology-strategy)
@@ -8,7 +10,7 @@
 [![AI](https://img.shields.io/badge/AI-LLM%20%2B%20RAG-F97316)](#intelligence-architecture)
 [![License](https://img.shields.io/badge/license-TBD-lightgrey)](#license)
 
-**Aegis Contract Intelligence** is an AI-native review platform designed for non-standard contracts—agreements whose structure, terminology, and risk allocation cannot be reliably evaluated with rigid templates alone.
+**Aegis Contract Intelligence Platform** is an AI-native review platform designed for non-standard contracts—agreements whose structure, terminology, and risk allocation cannot be reliably evaluated with rigid templates alone.
 
 The project is being designed around a hybrid review architecture that combines document intelligence, deterministic compliance rules, retrieval-augmented reasoning, and evidence-grounded AI analysis. Its goal is not to replace legal judgment, but to help legal and business teams identify review priorities faster, apply standards more consistently, and trace every finding back to its contractual evidence.
 
@@ -221,4 +223,3 @@ The license has not yet been selected. A license file will be added before sourc
 ## Vision
 
 Build a trustworthy contract intelligence layer that turns fragmented legal standards and unstructured agreements into explainable, reviewable, and auditable decisions.
-
