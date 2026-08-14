@@ -1,0 +1,34 @@
+version: 1
+
+ingestion:
+  accepted_extensions: [.docx, .pdf, .txt]
+  validate_content_type: true
+  malware_scan_required: true
+  reject_encrypted_files: false
+
+ocr:
+  enabled: true
+  trigger: text_density_below_threshold
+  languages: [eng, chi_sim]
+  page_timeout_seconds: 60
+
+parsing:
+  preserve_paragraphs: true
+  preserve_tables: true
+  preserve_page_numbers: true
+  recognize_headings: true
+  generate_stable_anchors: true
+
+normalization:
+  extract_parties: true
+  extract_dates: true
+  extract_amounts: true
+  extract_obligations: true
+  link_cross_references: true
+
+retrieval_units:
+  strategy: clause_with_neighbors
+  max_tokens: 1200
+  neighbor_before: 1
+  neighbor_after: 1
+

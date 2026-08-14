@@ -1,0 +1,37 @@
+version: 1
+
+runtime:
+  environment: development
+  log_level: INFO
+  tenant_mode: single
+  graceful_shutdown_seconds: 30
+
+workspace:
+  artifact_root: ./artifacts
+  temp_root: ./work
+  cleanup_after_hours: 24
+  retain_failed_jobs: false
+
+queues:
+  document: aegis:documents
+  review: aegis:reviews
+  visibility_timeout_seconds: 1200
+  max_delivery_attempts: 3
+
+limits:
+  max_file_mb: 50
+  max_pages: 500
+  max_review_minutes: 30
+  max_artifact_mb: 250
+
+retention:
+  source_days: 30
+  artifact_days: 30
+  audit_days: 365
+
+observability:
+  tracing: true
+  metrics: true
+  redact_contract_text: true
+  record_prompt_bodies: false
+

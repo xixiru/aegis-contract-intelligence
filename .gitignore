@@ -20,6 +20,7 @@ coverage/
 *.png
 *.jpg
 *.jpeg
+!assets/*.png
+assets/*.svg
 data/private/
 artifacts/
-

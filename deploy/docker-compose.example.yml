@@ -1,0 +1,108 @@
+name: aegis-contract-intelligence
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: aegis
+      POSTGRES_USER: aegis
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aegis -d aegis"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  object-storage:
+    image: minio/minio:latest
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${STORAGE_ACCESS_KEY:-aegis}
+      MINIO_ROOT_PASSWORD: ${STORAGE_SECRET_KEY:-change-me}
+    volumes:
+      - object-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  api:
+    profiles: ["app"]
+    image: ${AEGIS_IMAGE:-ghcr.io/xixiru/aegis-contract-intelligence:unreleased}
+    env_file:
+      - path: ../.env.example
+        required: true
+      - path: ../.env
+        required: false
+    command: ["aegis", "serve", "--host", "0.0.0.0", "--port", "8080"]
+    ports: ["8080:8080"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      object-storage: { condition: service_healthy }
+    volumes:
+      - ../config:/app/config:ro
+      - artifacts:/app/artifacts
+    restart: unless-stopped
+
+  document-worker:
+    profiles: ["app"]
+    image: ${AEGIS_IMAGE:-ghcr.io/xixiru/aegis-contract-intelligence:unreleased}
+    env_file:
+      - path: ../.env.example
+        required: true
+      - path: ../.env
+        required: false
+    command: ["aegis", "worker", "--queue", "documents"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      object-storage: { condition: service_healthy }
+    volumes:
+      - ../config:/app/config:ro
+      - artifacts:/app/artifacts
+    restart: unless-stopped
+
+  review-worker:
+    profiles: ["app"]
+    image: ${AEGIS_IMAGE:-ghcr.io/xixiru/aegis-contract-intelligence:unreleased}
+    env_file:
+      - path: ../.env.example
+        required: true
+      - path: ../.env
+        required: false
+    command: ["aegis", "worker", "--queue", "reviews"]
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+      object-storage: { condition: service_healthy }
+    volumes:
+      - ../config:/app/config:ro
+      - artifacts:/app/artifacts
+    deploy:
+      replicas: 2
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  redis-data:
+  object-data:
+  artifacts:
+

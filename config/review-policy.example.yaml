@@ -1,0 +1,36 @@
+version: 1
+
+review:
+  rule_pack: enterprise-general-v1
+  supported_scenarios: [leasing, procurement, service]
+  minimum_confidence: 0.72
+  require_source_anchor: true
+  reject_unsupported_findings: true
+
+retrieval:
+  semantic_top_k: 24
+  lexical_top_k: 24
+  rerank_top_n: 12
+  include_neighboring_clauses: true
+  metadata_filtering: true
+
+severity:
+  critical:
+    human_approval_required: true
+  high:
+    human_approval_required: true
+  medium:
+    human_approval_required: false
+  low:
+    human_approval_required: false
+
+finding_governance:
+  deduplicate_by: [policy, source_anchor, root_cause]
+  preserve_complementary_evidence: true
+  require_reasoning: true
+  require_recommended_action: true
+
+workflow:
+  reviewer_states: [pending, confirmed, dismissed, needs_context]
+  export_confirmed_only: false
+

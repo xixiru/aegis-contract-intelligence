@@ -1,0 +1,29 @@
+version: 1
+
+gateway:
+  provider: openai-compatible
+  request_timeout_seconds: 120
+  max_retries: 2
+  redact_payload_logs: true
+
+models:
+  chat:
+    name: ${MODEL_CHAT_NAME}
+    temperature: 0.1
+    structured_output: true
+  embedding:
+    name: ${MODEL_EMBEDDING_NAME}
+    dimensions: auto
+    batch_size: 64
+  rerank:
+    name: ${MODEL_RERANK_NAME}
+    top_n: 12
+  vision_ocr:
+    enabled: false
+    name: ${MODEL_VISION_NAME:-}
+
+budgets:
+  per_review_tokens: 120000
+  per_finding_tokens: 8000
+  max_parallel_requests: 4
+
