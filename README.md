@@ -2,7 +2,7 @@
 
 > AI-powered Contract Understanding and Risk Analysis Platform for Non-standard Agreements.
 
-**面向非制式协议的 AI 合同理解与风险分析平台**
+**面向非制式协议的 AI 合同风险分析平台**
 
 [![Status](https://img.shields.io/badge/status-architecture%20preview-6f42c1)](#release-status)
 [![Runtime](https://img.shields.io/badge/runtime-Python%203.11+-3776AB?logo=python&logoColor=white)](#runtime-environment)
